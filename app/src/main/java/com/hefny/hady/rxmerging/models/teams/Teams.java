@@ -22,8 +22,6 @@ public class Teams {
     @SerializedName("filters")
     private Filters filters;
 
-    private List<Players> playersList;
-
     public void setTeams(List<TeamsItem> teams) {
         this.teams = teams;
     }
@@ -72,15 +70,6 @@ public class Teams {
                 ", season=" + season +
                 ", competition=" + competition +
                 ", filters=" + filters +
-                ", playersList=" + playersList +
                 '}';
-    }
-
-    public List<Players> getPlayersList() {
-        return playersList;
-    }
-
-    public void setPlayersList(List<Players> playersList) {
-        this.playersList = playersList;
     }
 }

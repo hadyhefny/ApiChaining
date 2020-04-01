@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         teamsViewModel.getTeamsLiveData().observe(this, new Observer<Teams>() {
             @Override
             public void onChanged(Teams teams) {
-                Log.d(TAG, "onChanged: " + teams);
+                Log.d(TAG, "onChanged: teams size: " + teams.getTeams().size());
+                Log.d(TAG, "onChanged: squad size: " + teams.getTeams().get(0).getPlayers().getSquad().size());
             }
         });
     }

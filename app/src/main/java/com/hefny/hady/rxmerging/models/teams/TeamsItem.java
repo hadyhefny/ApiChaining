@@ -1,6 +1,7 @@
 package com.hefny.hady.rxmerging.models.teams;
 
 import com.google.gson.annotations.SerializedName;
+import com.hefny.hady.rxmerging.models.players.Players;
 import com.hefny.hady.rxmerging.models.players.SquadItem;
 
 import java.util.List;
@@ -48,6 +49,8 @@ public class TeamsItem {
 
     @SerializedName("email")
     private String email;
+
+    private Players players;
 
     public void setArea(Area area) {
         this.area = area;
@@ -178,6 +181,15 @@ public class TeamsItem {
                 ", id=" + id +
                 ", shortName='" + shortName + '\'' +
                 ", email='" + email + '\'' +
+                ", players=" + players +
                 '}';
+    }
+
+    public Players getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Players players) {
+        this.players = players;
     }
 }

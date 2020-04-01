@@ -12,11 +12,12 @@ import com.hefny.hady.rxmerging.models.players.Players;
 import com.hefny.hady.rxmerging.models.teams.Teams;
 import com.hefny.hady.rxmerging.models.teams.TeamsItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.SingleObserver;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -28,6 +29,8 @@ public class TeamsViewModel extends ViewModel {
     private TeamsApi teamsApi;
     private MutableLiveData<Teams> teamsMutableLiveData = new MutableLiveData<>();
     private Teams myTeams = new Teams();
+    private TeamsItem myTeamsItem = new TeamsItem();
+    private List<TeamsItem> teamsItemList = new ArrayList<>();
 
     public TeamsViewModel() {
         teamsApi = ServiceGenerator.getRecipeApi();
@@ -50,25 +53,32 @@ public class TeamsViewModel extends ViewModel {
                 .flatMap(new Function<TeamsItem, ObservableSource<Players>>() {
                     @Override
                     public ObservableSource<Players> apply(TeamsItem teamsItem) throws Exception {
+                        myTeamsItem = teamsItem;
+                        teamsItemList.add(myTeamsItem);
                         return getPlayers(teamsItem.getId());
                     }
-                }).toList()
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<Players>>() {
+                .subscribe(new Observer<Players>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
-                    public void onSuccess(List<Players> players) {
-                        myTeams.setPlayersList(players);
-                        teamsMutableLiveData.setValue(myTeams);
+                    public void onNext(Players players) {
+                        myTeamsItem.setPlayers(players);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError: " + e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        myTeams.setTeams(teamsItemList);
+                        teamsMutableLiveData.setValue(myTeams);
                     }
                 });
     }
