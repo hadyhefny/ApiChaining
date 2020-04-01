@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(Teams teams) {
                 Log.d(TAG, "onChanged: teams size: " + teams.getTeams().size());
-                Log.d(TAG, "onChanged: squad size: " + teams.getTeams().get(0).getPlayers().getSquad().size());
+                Log.d(TAG, "onChanged: squad size: " + teams.getTeams().get(0).getPlayers().getSquad().get(0));
             }
         });
     }

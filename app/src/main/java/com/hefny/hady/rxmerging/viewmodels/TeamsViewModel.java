@@ -54,7 +54,6 @@ public class TeamsViewModel extends ViewModel {
                     @Override
                     public ObservableSource<Players> apply(TeamsItem teamsItem) throws Exception {
                         myTeamsItem = teamsItem;
-                        teamsItemList.add(myTeamsItem);
                         return getPlayers(teamsItem.getId());
                     }
                 })
@@ -68,6 +67,8 @@ public class TeamsViewModel extends ViewModel {
                     @Override
                     public void onNext(Players players) {
                         myTeamsItem.setPlayers(players);
+                        Log.d(TAG, "onNext: " + players.getSquad().size());
+                        teamsItemList.add(myTeamsItem);
                     }
 
                     @Override
